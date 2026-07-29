@@ -1,0 +1,1 @@
+DO $$ BEGIN CREATE TYPE public.contact_type AS ENUM ('prospect','customer','partner','vendor','other'); EXCEPTION WHEN duplicate_object THEN NULL; END $$;

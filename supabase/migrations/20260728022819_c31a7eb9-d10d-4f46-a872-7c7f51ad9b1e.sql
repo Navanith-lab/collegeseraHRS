@@ -1,0 +1,1 @@
+DO $$ BEGIN CREATE TYPE public.deal_stage AS ENUM ('prospecting','qualification','proposal','negotiation','closed_won','closed_lost'); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
