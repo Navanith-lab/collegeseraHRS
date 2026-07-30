@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, Clock, CalendarDays, Megaphone, CalendarCheck, Settings,
   Building2, Network, CalendarClock, Banknote, FileText, Briefcase, ClipboardList,
   Target, Star, BookOpen, Receipt, Package, FolderOpen, DoorOpen, BarChart2,
-  UserCircle, Plane, Ticket, ReceiptText,
+  UserCircle, Plane, Ticket, ReceiptText, UserPlus, LifeBuoy, ShieldCheck, Play, Kanban, Grid
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -21,38 +21,44 @@ const sections: NavSection[] = [
   ]},
   { label: "Workforce", items: [
     { title: "Employees", url: "/employees", icon: Users },
+    { title: "Onboarding Tracker", url: "/onboarding", icon: UserPlus },
     { title: "Org Chart", url: "/org-chart", icon: Network },
     { title: "Departments", url: "/departments", icon: Building2 },
-    { title: "Shifts", url: "/shifts", icon: CalendarClock },
+    { title: "Shifts & Roster", url: "/shifts", icon: CalendarClock },
   ]},
   { label: "Time & Attendance", items: [
-    { title: "Attendance", url: "/attendance", icon: Clock },
+    { title: "Attendance & Geo", url: "/attendance", icon: Clock },
     { title: "Leave Management", url: "/leaves", icon: CalendarDays },
   ]},
-  { label: "Payroll", items: [
+  { label: "Payroll & Tax", items: [
+    { title: "Payroll Execution Wizard", url: "/payroll/runs", icon: Play },
     { title: "Salary Structures", url: "/payroll/salary-structures", icon: Banknote },
-    { title: "Payslips", url: "/payroll/payslips", icon: FileText },
+    { title: "Payslips & Form 16", url: "/payroll/payslips", icon: FileText },
   ]},
-  { label: "Talent", items: [
-    { title: "Recruitment", url: "/recruitment/jobs", icon: Briefcase },
-    { title: "Performance", url: "/performance/goals", icon: Target },
+  { label: "Talent & ATS", items: [
+    { title: "ATS Kanban Pipeline", url: "/recruitment/applications", icon: Kanban },
+    { title: "Job Openings", url: "/recruitment/jobs", icon: Briefcase },
+    { title: "Weighted OKRs", url: "/performance/goals", icon: Target },
+    { title: "360 Appraisals & 9-Box", url: "/performance/appraisals", icon: Grid },
     { title: "Training & Dev", url: "/training/courses", icon: BookOpen },
   ]},
-  { label: "Finance", items: [
+  { label: "Employee Support", items: [
+    { title: "HR Helpdesk Tickets", url: "/helpdesk", icon: LifeBuoy },
     { title: "Expenses", url: "/expenses", icon: Receipt },
     { title: "Assets", url: "/assets", icon: Package },
   ]},
   { label: "Travel", items: [
-    { title: "Travel", url: "/travel", icon: Plane },
+    { title: "Travel Requests", url: "/travel", icon: Plane },
     { title: "Tickets", url: "/travel/tickets", icon: Ticket },
     { title: "Travel Expenses", url: "/travel/expenses", icon: ReceiptText },
   ]},
   { label: "People Ops", items: [
-    { title: "Exit Management", url: "/exit", icon: DoorOpen },
+    { title: "Exit & No-Dues Clearance", url: "/exit", icon: DoorOpen },
     { title: "Documents", url: "/documents", icon: FolderOpen },
   ]},
-  { label: "Reports", items: [
-    { title: "Reports & Analytics", url: "/reports", icon: BarChart2 },
+  { label: "Analytics & Security", items: [
+    { title: "HR Analytics", url: "/reports", icon: BarChart2 },
+    { title: "Security Audit Trail", url: "/audit-logs", icon: ShieldCheck },
   ]},
   { label: "Admin", items: [
     { title: "Holidays", url: "/holidays", icon: CalendarCheck },
