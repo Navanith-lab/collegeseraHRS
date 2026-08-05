@@ -22,13 +22,16 @@ import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEmployeesRouteImport } from './routes/_authenticated/employees'
 import { Route as AuthenticatedExitRouteImport } from './routes/_authenticated/exit'
 import { Route as AuthenticatedExpensesRouteImport } from './routes/_authenticated/expenses'
+import { Route as AuthenticatedFeedbackRouteImport } from './routes/_authenticated/feedback'
 import { Route as AuthenticatedHelpdeskRouteImport } from './routes/_authenticated/helpdesk'
 import { Route as AuthenticatedHolidaysRouteImport } from './routes/_authenticated/holidays'
 import { Route as AuthenticatedLeaveBalancesRouteImport } from './routes/_authenticated/leave-balances'
 import { Route as AuthenticatedLeavesRouteImport } from './routes/_authenticated/leaves'
+import { Route as AuthenticatedMeetingsRouteImport } from './routes/_authenticated/meetings'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOrgChartRouteImport } from './routes/_authenticated/org-chart'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedRegularizationRouteImport } from './routes/_authenticated/regularization'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedShiftsRouteImport } from './routes/_authenticated/shifts'
@@ -111,6 +114,11 @@ const AuthenticatedExpensesRoute = AuthenticatedExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFeedbackRoute = AuthenticatedFeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHelpdeskRoute = AuthenticatedHelpdeskRouteImport.update({
   id: '/helpdesk',
   path: '/helpdesk',
@@ -132,6 +140,11 @@ const AuthenticatedLeavesRoute = AuthenticatedLeavesRouteImport.update({
   path: '/leaves',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMeetingsRoute = AuthenticatedMeetingsRouteImport.update({
+  id: '/meetings',
+  path: '/meetings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -147,6 +160,12 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRegularizationRoute =
+  AuthenticatedRegularizationRouteImport.update({
+    id: '/regularization',
+    path: '/regularization',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -248,13 +267,16 @@ export interface FileRoutesByFullPath {
   '/employees': typeof AuthenticatedEmployeesRoute
   '/exit': typeof AuthenticatedExitRoute
   '/expenses': typeof AuthenticatedExpensesRoute
+  '/feedback': typeof AuthenticatedFeedbackRoute
   '/helpdesk': typeof AuthenticatedHelpdeskRoute
   '/holidays': typeof AuthenticatedHolidaysRoute
   '/leave-balances': typeof AuthenticatedLeaveBalancesRoute
   '/leaves': typeof AuthenticatedLeavesRoute
+  '/meetings': typeof AuthenticatedMeetingsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/org-chart': typeof AuthenticatedOrgChartRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/regularization': typeof AuthenticatedRegularizationRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/shifts': typeof AuthenticatedShiftsRoute
@@ -284,13 +306,16 @@ export interface FileRoutesByTo {
   '/employees': typeof AuthenticatedEmployeesRoute
   '/exit': typeof AuthenticatedExitRoute
   '/expenses': typeof AuthenticatedExpensesRoute
+  '/feedback': typeof AuthenticatedFeedbackRoute
   '/helpdesk': typeof AuthenticatedHelpdeskRoute
   '/holidays': typeof AuthenticatedHolidaysRoute
   '/leave-balances': typeof AuthenticatedLeaveBalancesRoute
   '/leaves': typeof AuthenticatedLeavesRoute
+  '/meetings': typeof AuthenticatedMeetingsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/org-chart': typeof AuthenticatedOrgChartRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/regularization': typeof AuthenticatedRegularizationRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/shifts': typeof AuthenticatedShiftsRoute
@@ -322,13 +347,16 @@ export interface FileRoutesById {
   '/_authenticated/employees': typeof AuthenticatedEmployeesRoute
   '/_authenticated/exit': typeof AuthenticatedExitRoute
   '/_authenticated/expenses': typeof AuthenticatedExpensesRoute
+  '/_authenticated/feedback': typeof AuthenticatedFeedbackRoute
   '/_authenticated/helpdesk': typeof AuthenticatedHelpdeskRoute
   '/_authenticated/holidays': typeof AuthenticatedHolidaysRoute
   '/_authenticated/leave-balances': typeof AuthenticatedLeaveBalancesRoute
   '/_authenticated/leaves': typeof AuthenticatedLeavesRoute
+  '/_authenticated/meetings': typeof AuthenticatedMeetingsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/org-chart': typeof AuthenticatedOrgChartRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/regularization': typeof AuthenticatedRegularizationRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/shifts': typeof AuthenticatedShiftsRoute
@@ -360,13 +388,16 @@ export interface FileRouteTypes {
     | '/employees'
     | '/exit'
     | '/expenses'
+    | '/feedback'
     | '/helpdesk'
     | '/holidays'
     | '/leave-balances'
     | '/leaves'
+    | '/meetings'
     | '/onboarding'
     | '/org-chart'
     | '/profile'
+    | '/regularization'
     | '/reports'
     | '/settings'
     | '/shifts'
@@ -396,13 +427,16 @@ export interface FileRouteTypes {
     | '/employees'
     | '/exit'
     | '/expenses'
+    | '/feedback'
     | '/helpdesk'
     | '/holidays'
     | '/leave-balances'
     | '/leaves'
+    | '/meetings'
     | '/onboarding'
     | '/org-chart'
     | '/profile'
+    | '/regularization'
     | '/reports'
     | '/settings'
     | '/shifts'
@@ -433,13 +467,16 @@ export interface FileRouteTypes {
     | '/_authenticated/employees'
     | '/_authenticated/exit'
     | '/_authenticated/expenses'
+    | '/_authenticated/feedback'
     | '/_authenticated/helpdesk'
     | '/_authenticated/holidays'
     | '/_authenticated/leave-balances'
     | '/_authenticated/leaves'
+    | '/_authenticated/meetings'
     | '/_authenticated/onboarding'
     | '/_authenticated/org-chart'
     | '/_authenticated/profile'
+    | '/_authenticated/regularization'
     | '/_authenticated/reports'
     | '/_authenticated/settings'
     | '/_authenticated/shifts'
@@ -556,6 +593,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedExpensesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/feedback': {
+      id: '/_authenticated/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof AuthenticatedFeedbackRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/helpdesk': {
       id: '/_authenticated/helpdesk'
       path: '/helpdesk'
@@ -584,6 +628,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeavesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/meetings': {
+      id: '/_authenticated/meetings'
+      path: '/meetings'
+      fullPath: '/meetings'
+      preLoaderRoute: typeof AuthenticatedMeetingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
@@ -603,6 +654,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/regularization': {
+      id: '/_authenticated/regularization'
+      path: '/regularization'
+      fullPath: '/regularization'
+      preLoaderRoute: typeof AuthenticatedRegularizationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/reports': {
@@ -724,13 +782,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEmployeesRoute: typeof AuthenticatedEmployeesRoute
   AuthenticatedExitRoute: typeof AuthenticatedExitRoute
   AuthenticatedExpensesRoute: typeof AuthenticatedExpensesRoute
+  AuthenticatedFeedbackRoute: typeof AuthenticatedFeedbackRoute
   AuthenticatedHelpdeskRoute: typeof AuthenticatedHelpdeskRoute
   AuthenticatedHolidaysRoute: typeof AuthenticatedHolidaysRoute
   AuthenticatedLeaveBalancesRoute: typeof AuthenticatedLeaveBalancesRoute
   AuthenticatedLeavesRoute: typeof AuthenticatedLeavesRoute
+  AuthenticatedMeetingsRoute: typeof AuthenticatedMeetingsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedOrgChartRoute: typeof AuthenticatedOrgChartRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedRegularizationRoute: typeof AuthenticatedRegularizationRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedShiftsRoute: typeof AuthenticatedShiftsRoute
@@ -759,13 +820,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEmployeesRoute: AuthenticatedEmployeesRoute,
   AuthenticatedExitRoute: AuthenticatedExitRoute,
   AuthenticatedExpensesRoute: AuthenticatedExpensesRoute,
+  AuthenticatedFeedbackRoute: AuthenticatedFeedbackRoute,
   AuthenticatedHelpdeskRoute: AuthenticatedHelpdeskRoute,
   AuthenticatedHolidaysRoute: AuthenticatedHolidaysRoute,
   AuthenticatedLeaveBalancesRoute: AuthenticatedLeaveBalancesRoute,
   AuthenticatedLeavesRoute: AuthenticatedLeavesRoute,
+  AuthenticatedMeetingsRoute: AuthenticatedMeetingsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedOrgChartRoute: AuthenticatedOrgChartRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedRegularizationRoute: AuthenticatedRegularizationRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedShiftsRoute: AuthenticatedShiftsRoute,

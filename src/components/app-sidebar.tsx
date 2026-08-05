@@ -1,102 +1,108 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
-  LayoutDashboard, Users, Clock, CalendarDays, Megaphone, CalendarCheck, Settings,
-  Building2, Network, CalendarClock, Banknote, FileText, Briefcase, ClipboardList,
-  Target, Star, BookOpen, Receipt, Package, FolderOpen, DoorOpen, BarChart2,
-  UserCircle, Plane, Ticket, ReceiptText, UserPlus, LifeBuoy, ShieldCheck, Play, Kanban, Grid
+  Home,
+  User,
+  Clock,
+  Calendar,
+  CalendarDays,
+  Receipt,
+  FileEdit,
+  Laptop,
+  MessageSquare,
+  Ticket,
+  Users,
+  ShieldCheck,
+  LogOut,
+  ChevronDown
 } from "lucide-react";
 import {
-  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { BrandLogo } from "./brand-logo";
+import { supabase } from "@/integrations/supabase/client";
 
-type NavItem = { title: string; url: string; icon: React.ComponentType<{ className?: string }> };
-type NavSection = { label: string; items: NavItem[] };
-
-const sections: NavSection[] = [
-  { label: "Core HR", items: [
-    { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-    { title: "My Profile", url: "/profile", icon: UserCircle },
-  ]},
-  { label: "Workforce", items: [
-    { title: "Employees", url: "/employees", icon: Users },
-    { title: "Onboarding Tracker", url: "/onboarding", icon: UserPlus },
-    { title: "Org Chart", url: "/org-chart", icon: Network },
-    { title: "Departments", url: "/departments", icon: Building2 },
-    { title: "Shifts & Roster", url: "/shifts", icon: CalendarClock },
-  ]},
-  { label: "Time & Attendance", items: [
-    { title: "Attendance & Geo", url: "/attendance", icon: Clock },
-    { title: "Leave Management", url: "/leaves", icon: CalendarDays },
-  ]},
-  { label: "Payroll & Tax", items: [
-    { title: "Payroll Execution Wizard", url: "/payroll/runs", icon: Play },
-    { title: "Salary Structures", url: "/payroll/salary-structures", icon: Banknote },
-    { title: "Payslips & Form 16", url: "/payroll/payslips", icon: FileText },
-  ]},
-  { label: "Talent & ATS", items: [
-    { title: "ATS Kanban Pipeline", url: "/recruitment/applications", icon: Kanban },
-    { title: "Job Openings", url: "/recruitment/jobs", icon: Briefcase },
-    { title: "Weighted OKRs", url: "/performance/goals", icon: Target },
-    { title: "360 Appraisals & 9-Box", url: "/performance/appraisals", icon: Grid },
-    { title: "Training & Dev", url: "/training/courses", icon: BookOpen },
-  ]},
-  { label: "Employee Support", items: [
-    { title: "HR Helpdesk Tickets", url: "/helpdesk", icon: LifeBuoy },
-    { title: "Expenses", url: "/expenses", icon: Receipt },
-    { title: "Assets", url: "/assets", icon: Package },
-  ]},
-  { label: "Travel", items: [
-    { title: "Travel Requests", url: "/travel", icon: Plane },
-    { title: "Tickets", url: "/travel/tickets", icon: Ticket },
-    { title: "Travel Expenses", url: "/travel/expenses", icon: ReceiptText },
-  ]},
-  { label: "People Ops", items: [
-    { title: "Exit & No-Dues Clearance", url: "/exit", icon: DoorOpen },
-    { title: "Documents", url: "/documents", icon: FolderOpen },
-  ]},
-  { label: "Analytics & Security", items: [
-    { title: "HR Analytics", url: "/reports", icon: BarChart2 },
-    { title: "Security Audit Trail", url: "/audit-logs", icon: ShieldCheck },
-  ]},
-  { label: "Admin", items: [
-    { title: "Holidays", url: "/holidays", icon: CalendarCheck },
-    { title: "Announcements", url: "/announcements", icon: Megaphone },
-    { title: "Settings", url: "/settings", icon: Settings },
-  ]},
+const navItems = [
+  { title: "Home", url: "/dashboard", icon: Home },
+  { title: "User Dashboard", url: "/profile", icon: User },
+  { title: "Attendance", url: "/attendance", icon: Clock },
+  { title: "All Holidays", url: "/holidays", icon: Calendar },
+  { title: "Leave", url: "/leaves", icon: CalendarDays },
+  { title: "Expenses", url: "/expenses", icon: Receipt, hasDropdown: true },
+  { title: "Regularization", url: "/regularization", icon: FileEdit },
+  { title: "Assigned Assets", url: "/assets", icon: Laptop },
+  { title: "Feedback", url: "/feedback", icon: MessageSquare },
+  { title: "Tickets", url: "/helpdesk", icon: Ticket },
+  { title: "Meetings", url: "/meetings", icon: Users },
+  { title: "Company Policies", url: "/documents", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
-  const isActive = (url: string) => pathname === url || pathname.startsWith(url + "/");
+  const navigate = useNavigate();
+
+  const isActive = (url: string) => pathname === url || (url !== "/dashboard" && pathname.startsWith(url));
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border py-4">
-        <BrandLogo variant="light" />
+    <Sidebar collapsible="icon" className="border-r bg-slate-50/50 dark:bg-card">
+      <SidebarHeader className="border-b border-sidebar-border py-4 px-4">
+        <BrandLogo />
       </SidebarHeader>
-      <SidebarContent>
-        {sections.map((section) => (
-          <SidebarGroup key={section.label}>
-            <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {section.items.map((item) => (
+      <SidebarContent className="py-2 px-2">
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {navItems.map((item) => {
+                const active = isActive(item.url);
+                return (
                   <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={active}
+                      tooltip={item.title}
+                      className={
+                        active
+                          ? "bg-slate-200/70 dark:bg-slate-800 text-rose-500 font-semibold shadow-xs hover:bg-slate-200/90"
+                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                      }
+                    >
+                      <Link to={item.url} className="flex items-center justify-between py-2.5 px-3">
+                        <div className="flex items-center gap-3">
+                          <item.icon className={`h-4 w-4 ${active ? "text-rose-500" : "text-slate-500"}`} />
+                          <span className="text-sm">{item.title}</span>
+                        </div>
+                        {item.hasDropdown && <ChevronDown className="h-3.5 w-3.5 text-slate-400" />}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter className="border-t p-3">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-rose-50 hover:text-rose-600 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Logout</span>
+        </button>
+      </SidebarFooter>
     </Sidebar>
   );
 }
