@@ -85,7 +85,7 @@ function AuthPage() {
             ))}
           </div>
         </div>
-        <div className="text-xs text-primary-foreground/60">© CollegeSera. All rights reserved.</div>
+        <div className="text-xs text-primary-foreground/60">© SAVANTEVO SOLUTIONS PRIVATE LIMITED. All rights reserved.</div>
       </div>
 
       <div className="flex items-center justify-center p-6">
