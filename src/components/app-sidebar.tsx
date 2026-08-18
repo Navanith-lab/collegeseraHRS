@@ -13,13 +13,17 @@ import {
   Users,
   ShieldCheck,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Play,
+  Settings,
+  BarChart2
 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -29,7 +33,7 @@ import {
 import { BrandLogo } from "./brand-logo";
 import { supabase } from "@/integrations/supabase/client";
 
-const navItems = [
+const selfServiceItems = [
   { title: "Home", url: "/dashboard", icon: Home },
   { title: "User Dashboard", url: "/profile", icon: User },
   { title: "Attendance", url: "/attendance", icon: Clock },
@@ -42,6 +46,14 @@ const navItems = [
   { title: "Tickets", url: "/helpdesk", icon: Ticket },
   { title: "Meetings", url: "/meetings", icon: Users },
   { title: "Company Policies", url: "/documents", icon: ShieldCheck },
+];
+
+const adminItems = [
+  { title: "Admin Panel & RBAC", url: "/settings", icon: Settings },
+  { title: "Payroll Execution", url: "/payroll/runs", icon: Play },
+  { title: "Employee Directory", url: "/employees", icon: Users },
+  { title: "HR Analytics", url: "/reports", icon: BarChart2 },
+  { title: "Security Audit Trail", url: "/audit-logs", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
@@ -62,9 +74,12 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="py-2 px-2">
         <SidebarGroup>
+          <SidebarGroupLabel className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1">
+            Employee Portal
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
-              {navItems.map((item) => {
+              {selfServiceItems.map((item) => {
                 const active = isActive(item.url);
                 return (
                   <SidebarMenuItem key={item.url}>
@@ -84,6 +99,40 @@ export function AppSidebar() {
                           <span className="text-sm">{item.title}</span>
                         </div>
                         {item.hasDropdown && <ChevronDown className="h-3.5 w-3.5 text-slate-400" />}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="pt-2">
+          <SidebarGroupLabel className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1">
+            Admin Authority Tiers
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {adminItems.map((item) => {
+                const active = isActive(item.url);
+                return (
+                  <SidebarMenuItem key={item.url}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={active}
+                      tooltip={item.title}
+                      className={
+                        active
+                          ? "bg-slate-200/70 dark:bg-slate-800 text-rose-500 font-semibold shadow-xs hover:bg-slate-200/90"
+                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                      }
+                    >
+                      <Link to={item.url} className="flex items-center justify-between py-2.5 px-3">
+                        <div className="flex items-center gap-3">
+                          <item.icon className={`h-4 w-4 ${active ? "text-rose-500" : "text-slate-500"}`} />
+                          <span className="text-sm">{item.title}</span>
+                        </div>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
