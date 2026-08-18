@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getCurrentContext, getDashboardStats, checkIn, checkOut } from "@/lib/hrms.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Clock, CalendarDays, Bell, LogIn, LogOut, Building2, CheckCircle2, Award, ArrowUpRight } from "lucide-react";
+import { Users, Clock, CalendarDays, Bell, LogIn, LogOut, Building2, CheckCircle2, Cake, Sparkles, FileText, Ticket, ArrowRight, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
@@ -28,6 +28,11 @@ const defaultHolidays = [
   { id: "h1", name: "Independence Day", date: "2026-08-15", description: "National Holiday" },
   { id: "h2", name: "Ganesh Chaturthi", date: "2026-09-14", description: "Regional Holiday" },
   { id: "h3", name: "Gandhi Jayanti", date: "2026-10-02", description: "National Holiday" },
+];
+
+const teamEvents = [
+  { id: "e1", name: "Aarav Sharma", type: "Work Anniversary 🎂", detail: "Completes 2 Years at KollegeApply today!" },
+  { id: "e2", name: "Priya Patel", type: "Birthday 🥳", detail: "Celebrating Birthday tomorrow!" },
 ];
 
 function Dashboard() {
@@ -56,7 +61,7 @@ function Dashboard() {
     try {
       if (action === "in") await doCheckIn();
       else await doCheckOut();
-      toast.success(action === "in" ? "Checked in" : "Checked out");
+      toast.success(action === "in" ? "Punched In Successfully!" : "Punched Out Successfully!");
       qc.invalidateQueries({ queryKey: ["dashboard-stats"] });
     } catch (e) {
       toast.success(action === "in" ? "Punched In Successfully!" : "Punched Out Successfully!");
@@ -68,6 +73,7 @@ function Dashboard() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Header Banner */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold text-rose-500 uppercase tracking-wider">
@@ -90,7 +96,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Metric Cards */}
+      {/* Aligned Metric Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total Employees" value={stats?.totalEmployees || 24} icon={Users} loading={isLoading} />
         <StatCard label="Departments" value={stats?.totalDepartments || 6} icon={Building2} loading={isLoading} />
@@ -98,7 +104,32 @@ function Dashboard() {
         <StatCard label="Leaves Available" value={stats?.leaveCount || 18} icon={CalendarDays} loading={isLoading} />
       </div>
 
+      {/* Quick HR Action Buttons (Sweet & Short) */}
+      <Card className="bg-gradient-to-r from-rose-500/5 via-amber-500/5 to-emerald-500/5 border-rose-100">
+        <CardContent className="p-4 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-rose-500" />
+            <span className="text-sm font-bold text-slate-800">Quick HR Actions:</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" variant="outline" className="h-8 text-xs font-semibold">
+              <Link to="/leaves"><CalendarDays className="mr-1.5 h-3.5 w-3.5 text-rose-500" /> Request Leave</Link>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="h-8 text-xs font-semibold">
+              <Link to="/regularization"><Clock className="mr-1.5 h-3.5 w-3.5 text-blue-500" /> Regularize Punch</Link>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="h-8 text-xs font-semibold">
+              <Link to="/payroll/payslips"><FileText className="mr-1.5 h-3.5 w-3.5 text-emerald-500" /> My Payslips</Link>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="h-8 text-xs font-semibold">
+              <Link to="/helpdesk"><Ticket className="mr-1.5 h-3.5 w-3.5 text-purple-500" /> Raise HR Ticket</Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid gap-6 lg:grid-cols-3">
+        {/* Attendance & Shift Card */}
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Today's Attendance Overview</CardTitle>
@@ -122,6 +153,31 @@ function Dashboard() {
           </CardContent>
         </Card>
 
+        {/* Team Celebrations (Sweet HR Touch) */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Cake className="h-4 w-4 text-rose-500" /> Team Celebrations
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {teamEvents.map((e) => (
+              <div key={e.id} className="flex items-center justify-between rounded-lg border p-3 bg-muted/20">
+                <div>
+                  <div className="text-sm font-bold text-foreground">{e.name}</div>
+                  <div className="text-xs text-muted-foreground">{e.detail}</div>
+                </div>
+                <Badge variant="secondary" className="text-[10px] font-semibold">
+                  {e.type}
+                </Badge>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Company Announcements */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2"><Bell className="h-4 w-4 text-rose-500" /> Company Announcements</CardTitle>
@@ -135,30 +191,30 @@ function Dashboard() {
             ))}
           </CardContent>
         </Card>
-      </div>
 
-      {/* Upcoming Holidays */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Upcoming Holidays 2026</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {holidaysList.map((h) => (
-              <div key={h.id} className="flex items-center gap-3 rounded-lg border p-3 hover:bg-muted/30 transition-colors">
-                <div className="flex h-10 w-12 flex-col items-center justify-center rounded bg-rose-500/10 text-rose-600 font-bold">
-                  <span className="text-[10px] uppercase">{format(new Date(h.date), "MMM")}</span>
-                  <span className="text-lg leading-none">{format(new Date(h.date), "d")}</span>
+        {/* Upcoming Holidays */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Holidays 2026</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {holidaysList.map((h) => (
+                <div key={h.id} className="flex items-center gap-3 rounded-lg border p-3 hover:bg-muted/30 transition-colors">
+                  <div className="flex h-10 w-12 flex-col items-center justify-center rounded bg-rose-500/10 text-rose-600 font-bold">
+                    <span className="text-[10px] uppercase">{format(new Date(h.date), "MMM")}</span>
+                    <span className="text-lg leading-none">{format(new Date(h.date), "d")}</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">{h.name}</div>
+                    <div className="text-xs text-muted-foreground">{h.description}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-foreground">{h.name}</div>
-                  <div className="text-xs text-muted-foreground">{h.description}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
